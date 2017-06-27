@@ -1,0 +1,29 @@
+<b:if cond='data:blog.pageType == &quot;item&quot;'>
+<style type='text/css'>
+.related-post-title{font-size: 2em;padding: 0px 0px 15px;margin: 5px 0px;border-bottom: 1px dotted #000;} 
+#related-posts a { font-size: 1.2em; color: #525252; text-transform: capitalize; text-decoration: none; line-height: 20px;} 
+#related-posts a:hover { text-decoration: none; color: #06c; } 
+#related-posts ul { list-style-type: none; color: #000000; } 
+#related-posts li { padding: 8px 2px; border-bottom: 1px solid #E2E2E2; clear: both; font-family: Helvetica; font-size: 12px; overflow: auto; border: 1px solid #CCC; margin: 5px 5px 8px 5px; border-radius: 4px; box-shadow: 0px 0px 5px #B6B6B6;background:#FAFAFA;} 
+.image_left{ float: right; margin: 0px 5px 0px 8px;; border: 1px solid #fff; padding: 0px; width: 80px; height: 56px; box-shadow: 0px 0px 4px #777; } #related_here{ float:left; width: 50%; padding: 0px; margin:0px; } 
+#related_here2{ float:right; width: 50%; padding: 0px; margin:0px; } 
+.related_all_ul{overflow: auto;}
+</style>
+<script type='text/javascript'>
+//<![CDATA[
+function related_results_labels(e){for(var l=0;l<e.feed.entry.length;l++){var t=e.feed.entry[l];relatedTitles[relatedTitlesNum]=t.title.$t;var r=e.feed.entry[l].media$thumbnail.url,a=r.replace("/s72-c/","/s100/");if(e.feed.entry[l].media$thumbnail)var r=e.feed.entry[l].media$thumbnail.url,a=r.replace("/s72-c/","/s100/");else if(null!=e.feed.entry[l].content.$t.match(/src=(.+?[\.jpg|\.gif|\.png]")/))var a=e.feed.entry[l].content.$t.match(/src=(.+?[\.jpg|\.gif|\.png]")/)[1];else var a="http://1.bp.blogspot.com/-a-3WZRtj7pw/VoxaVk-cPMI/AAAAAAAABMo/ivQ1HVw0ZME/s250-Ic42/no-thumbnail.png";relatedImage[relatedTitlesNum]=a;for(var n=0;n<t.link.length;n++)if("alternate"==t.link[n].rel){relatedUrls[relatedTitlesNum]=t.link[n].href,relatedTitlesNum++;break}}}function removeRelatedDuplicates(){for(var e=new Array(0),l=new Array(0),t=new Array(0),r=0;r<relatedUrls.length;r++)contains(e,relatedUrls[r])||(e.length+=1,e[e.length-1]=relatedUrls[r],l.length+=1,l[l.length-1]=relatedTitles[r],t.length+=1,t[t.length-1]=relatedImage[r]);relatedTitles=l,relatedUrls=e,relatedImage=t}function contains(e,l){for(var t=0;t<e.length;t++)if(e[t]==l)return!0;return!1}function printRelatedLabels(e){for(var l=0;l<relatedUrls.length;l++)relatedUrls[l]==e&&(relatedUrls.splice(l,1),relatedTitles.splice(l,1),relatedImage.splice(l,1));var t=Math.floor((relatedTitles.length-1)*Math.random()),l=0;for(relatedTitles.length>1;l<relatedTitles.length&&20>l&&l<maxposts;)l%2==1?document.getElementById("related_here2").innerHTML+="<li><img class='image_left' src=\""+relatedImage[t]+'"><a href="'+relatedUrls[t]+'">'+relatedTitles[t]+"</a></li>":document.getElementById("related_here").innerHTML+="<li><img class='image_left' src=\""+relatedImage[t]+'"><a href="'+relatedUrls[t]+'">'+relatedTitles[t]+"</a></li>",t<relatedTitles.length-1?t++:t=0,l++;relatedUrls.splice(0,relatedUrls.length),relatedTitles.splice(0,relatedTitles.length),relatedImage.splice(0,relatedImage.length)}var relatedTitles=new Array,relatedImage=new Array,relatedTitlesNum=0,relatedUrls=new Array;
+//]]> 
+</script>
+<div id='related-posts'>
+<div class='related_all_ul'>
+<ul id='related_here'/>
+<ul id='related_here2'/>
+</div>
+<b:loop values='data:post.labels' var='label'> 
+<b:if cond='data:label.isLast != &quot;true&quot;'> 
+</b:if>
+<script expr:src='&quot;/feeds/posts/default/-/&quot; + data:label.name + &quot;?alt=json-in-script&amp;callback=related_results_labels&amp;max-results=8&quot;' type='text/javascript'/>
+</b:loop> 
+<script type='text/javascript'> var maxposts=6; removeRelatedDuplicates(); printRelatedLabels(&quot;<data:post.url/>&quot;); </script>
+</div>
+</b:if>
